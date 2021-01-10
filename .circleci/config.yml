@@ -26,7 +26,7 @@ jobs:
           key: mongo-spring-search-{{ checksum "pom.xml" }}
 
       # run tests!
-      - run: mvn test
+      - run: mvn clean test
       - store_artifacts:
           path:  ~/project/target/coverage-reports
       - codecov/upload:
