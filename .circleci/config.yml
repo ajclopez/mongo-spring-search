@@ -39,4 +39,3 @@ workflows:
   test:
     jobs:
       - test
-
