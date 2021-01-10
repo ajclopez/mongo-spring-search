@@ -1,4 +1,5 @@
 [![MIT License][license-shield]][license-url]
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.ajclopez/mongo-spring-search.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.ajclopez%22%20AND%20a:%22mongo-spring-search%22)
 
 <p align="center">
   <h3 align="center">Mongo Spring Search</h3>
