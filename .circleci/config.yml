@@ -1,0 +1,36 @@
+version: 2.1
+
+jobs:
+  test:
+    environment:
+      JVM_OPTS: -Xmx3200m
+    docker:
+      - image: circleci/openjdk:14-jdk-buster-node
+
+    working_directory: ~/project
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - mongo-spring-search-{{ checksum "pom.xml" }}
+            - mongo-spring-search-
+
+      - run: mvn dependency:go-offline
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: mongo-spring-search-{{ checksum "pom.xml" }}
+
+      # run tests!
+      - run: mvn test
+      - store_artifacts:
+          path:  ~/project/target/coverage-reports
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
+
