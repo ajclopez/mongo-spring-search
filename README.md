@@ -45,27 +45,27 @@ You could create custom repository methods to perform your searches. You could a
 
 ## Getting Started
 
-To get a local copy and run it, follow these simple steps.
-
 ### Installation
-1. Clone the repo
-```sh
-git clone https://github.com/ajclopez/mongo-spring-search.git
-```
 
-2. Make the library available
-```sh
-mvn install #inside the mongo-spring-search folder
-```
+##### Maven
 
-3. Add the repo to your project inside your `pom.xml` file
-```xml
+Include the dependency to your project inside your `pom.xml` file
+
+```xml  
 <dependency>
-    <groupId>io.github.ajclopez</groupId>
-    <artifactId>mongo-spring-search</artifactId>
-    <version>1.0.0</version>
+  <groupId>io.github.ajclopez</groupId>
+  <artifactId>mongo-spring-search</artifactId>
+  <version>1.0.0</version>
 </dependency>
 ```
+
+##### Gradle
+
+Add implementation to your project in your `build.gradle` file
+
+```
+implementation 'io.github.ajclopez:mongo-spring-search:1.0.0'
+````
 
 ## Usage
 
