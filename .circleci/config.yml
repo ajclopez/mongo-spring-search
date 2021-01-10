@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.2
 
 jobs:
   test:
@@ -27,6 +29,10 @@ jobs:
       - run: mvn test
       - store_artifacts:
           path:  ~/project/target/coverage-reports
+      - codecov/upload:
+          file: ~/project/target/coverage-reports/jacoco/jacoco.xml
+          flags: coverage
+          upload_name: Coverage
 
 workflows:
   version: 2
