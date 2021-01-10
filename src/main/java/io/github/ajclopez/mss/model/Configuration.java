@@ -6,9 +6,11 @@ import java.util.Map;
  * 
  * <p>Class used for advanced options [optional].</p>
  * 
- * <b>casters:</b> object which map keys to casters ({@code BOOLEAN, NUMBER, PATTERN, DATE, STRING}).</br>
- * <b>defaultLimit:</b> default value for {@code limit} key.</br>
- * <b>maxLimit:</b> maximum value for {@code limit} key.</br>
+ * <ul>
+ * <li><b>casters:</b> object which map keys to casters ({@code BOOLEAN, NUMBER, PATTERN, DATE, STRING}).
+ * <li><b>defaultLimit:</b> default value for {@code limit} key.
+ * <li><b>maxLimit:</b> maximum value for {@code limit} key. 
+ * </ul>
  * 
  */
 public class Configuration {
