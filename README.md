@@ -141,8 +141,8 @@ Query query = MongoSpringSearch.mss("status=sent&date>2020-01-06T14:00:00.000Z&a
 | -----------------	| ---------------------	| ---------------------------------	| 
 | `$eq`          	| `key=val`				| `type=public`        				|
 | `$ne`          	| `key!=val`        	| `status!=SENT`                    |
-| `$gt`          	| `key>val`             | `price>=5`                        |
-| `$gte`         	| `key>=val`            | `price>==9`                       |
+| `$gt`          	| `key>val`             | `price>5`                        |
+| `$gte`         	| `key>=val`            | `price>=9`                       |
 | `$lt`          	| `key<val`             | `date<2020-01-01T14:00:00.000Z`   |
 | `$lte`         	| `key<=val`            | `priority<=-5`                    |
 | `$in`          	| `key=val1,val2`       | `status=QUEUED,DEQUEUED`          |
