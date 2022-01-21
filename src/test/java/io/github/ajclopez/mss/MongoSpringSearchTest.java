@@ -61,6 +61,46 @@ public class MongoSpringSearchTest {
 	}
 	
 	@Test
+	public void canUseRegex() {
+		
+		String query = "mobile=/^58/";
+		Query mongoQuery = MongoSpringSearch.mss(query);
+				
+		Pattern pattern = Pattern.compile("/^58/");
+		
+		Document document = ((Document)mongoQuery.getQueryObject().get("$and", BasicDBList.class).get(0));
+		
+		String expected = Pattern.compile(pattern.pattern().replace("/", "")).pattern();
+		
+		Assert.assertEquals(expected, document.get("mobile").toString());	
+	}
+	
+	@Test
+	public void canUseRegexWithSpecialCharacters() {
+		
+		String query = "mobile=/^\\+58/";
+		Query mongoQuery = MongoSpringSearch.mss(query);
+				
+		Pattern pattern = Pattern.compile("/^\\+58/");
+		
+		Document document = ((Document)mongoQuery.getQueryObject().get("$and", BasicDBList.class).get(0));
+		
+		String expected = Pattern.compile(pattern.pattern().replace("/", "")).pattern();
+		
+		Assert.assertEquals(expected, document.get("mobile").toString());	
+	}
+
+	@Test
+	public void canUseRegexWithOptions() {
+		
+		String query = "firstname=/JOHN/i";
+		Query mongoQuery = MongoSpringSearch.mss(query);
+		
+		System.out.println(mongoQuery);
+		
+	}
+	
+	@Test
 	public void limitQuery() {
 		
 		String query = "limit=10";
@@ -253,7 +293,7 @@ public class MongoSpringSearchTest {
 		
 		Document document = ((Document)mongoQuery.getQueryObject().get("$and", BasicDBList.class).get(0));
 		
-		String expected = Pattern.compile(Pattern.quote(pattern.pattern().replace("/", ""))).pattern();
+		String expected = Pattern.compile(pattern.pattern().replace("/", "")).pattern();
 		
 		Assert.assertEquals(expected, document.get("email").toString());
 	}

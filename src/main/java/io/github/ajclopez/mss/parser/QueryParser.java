@@ -105,6 +105,12 @@ public class QueryParser {
 				throw new ArgumentNotValidException(String.format("'%s' cannot be cast to number.", value));
 			}
 		case PATTERN:
+			Matcher matcher = SearchPatterns.getRegExpPattern().matcher(value);
+			
+			if ( matcher.matches() ) {
+				return Pattern.compile(matcher.group(1).replace("/", ""), SearchPatterns.getFlags(matcher.group(2)));
+			}
+			
 			return Pattern.compile(value.replace("/", ""));
 		case STRING:
 			return value;
@@ -150,8 +156,9 @@ public class QueryParser {
 		} catch(ParseException ignored) {
 		}
 
-		if ( SearchPatterns.getRegExpPattern().matcher(value).matches() ) {
-			return Pattern.compile(value.replace("/", ""));
+		Matcher matcher = SearchPatterns.getRegExpPattern().matcher(value);
+		if ( matcher.matches() ) {
+			return Pattern.compile(matcher.group(1).replace("/", ""), SearchPatterns.getFlags(matcher.group(2)));
 		}
 		
 		return value;

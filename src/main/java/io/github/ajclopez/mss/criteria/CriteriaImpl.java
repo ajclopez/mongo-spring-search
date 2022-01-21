@@ -37,7 +37,7 @@ public class CriteriaImpl {
 		case EQUAL:
 		default:					
 			if ( value instanceof Pattern ) {
-				criteria.regex(Pattern.quote(((Pattern)value).pattern()));
+				criteria.regex((Pattern)value);
 			} else if ( value instanceof List ) {
 				criteria.in(((List<?>) value).toArray());				
 			} else {
