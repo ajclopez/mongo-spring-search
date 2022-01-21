@@ -56,7 +56,7 @@ Include the dependency to your project inside your `pom.xml` file
 <dependency>
   <groupId>io.github.ajclopez</groupId>
   <artifactId>mongo-spring-search</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 </dependency>
 ```
 
