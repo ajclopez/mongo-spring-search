@@ -95,8 +95,29 @@ public class MongoSpringSearchTest {
 		
 		String query = "firstname=/JOHN/i";
 		Query mongoQuery = MongoSpringSearch.mss(query);
+				
+		Pattern pattern = Pattern.compile("/JOHN/", Pattern.CASE_INSENSITIVE);
 		
-		System.out.println(mongoQuery);
+		Document document = ((Document)mongoQuery.getQueryObject().get("$and", BasicDBList.class).get(0));
+		
+		String expected = Pattern.compile(pattern.pattern().replace("/", ""), Pattern.CASE_INSENSITIVE).pattern();		
+
+		Assert.assertEquals(expected, document.get("firstname").toString());
+	}
+	
+	@Test
+	public void canUseRegexWithAllOptions() {
+		
+		String query = "firstname=/JOHN/gmixs";
+		Query mongoQuery = MongoSpringSearch.mss(query);
+		
+		Pattern pattern = Pattern.compile("/JOHN/", Pattern.CASE_INSENSITIVE);
+		
+		Document document = ((Document)mongoQuery.getQueryObject().get("$and", BasicDBList.class).get(0));
+		
+		String expected = Pattern.compile(pattern.pattern().replace("/", ""), Pattern.CASE_INSENSITIVE).pattern();		
+
+		Assert.assertEquals(expected, document.get("firstname").toString());
 		
 	}
 	
