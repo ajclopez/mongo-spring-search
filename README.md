@@ -65,7 +65,7 @@ Include the dependency to your project inside your `pom.xml` file
 Add implementation to your project in your `build.gradle` file
 
 ```
-implementation 'io.github.ajclopez:mongo-spring-search:1.0.0'
+implementation 'io.github.ajclopez:mongo-spring-search:1.0.1'
 ````
 
 ## Usage
