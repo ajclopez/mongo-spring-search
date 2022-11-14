@@ -12,7 +12,7 @@ public class SearchPatterns {
     private static final String OPERATOR_PATTERN = "(!?)([^><!=]+)([><]=?|!?=|)(.*)";
     private static final String REGEX_PATTERN = "^/(.*)/([igmsx]*)$";
     private static final String SORT_PATTERN = "^(\\+|-)?(.*)";
-    private static final String NUMBER_PATTERN = "^(-?)(\\d+)([,.0-9]*)$";
+    private static final String NUMBER_PATTERN = "^(-?)(\\d+)([.0-9]*)$";
     
     private static Pattern operatorPattern;
     private static Pattern regExpPattern;

@@ -1,5 +1,11 @@
 package io.github.ajclopez.mss.parser;
 
+import io.github.ajclopez.mss.exception.ArgumentNotValidException;
+import io.github.ajclopez.mss.model.CastType;
+import io.github.ajclopez.mss.model.SearchCriteria;
+import io.github.ajclopez.mss.model.SearchOperation;
+import io.github.ajclopez.mss.pattern.SearchPatterns;
+
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
@@ -14,12 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import io.github.ajclopez.mss.exception.ArgumentNotValidException;
-import io.github.ajclopez.mss.model.CastType;
-import io.github.ajclopez.mss.model.SearchCriteria;
-import io.github.ajclopez.mss.model.SearchOperation;
-import io.github.ajclopez.mss.pattern.SearchPatterns;
 
 /**
  * 
@@ -81,11 +81,11 @@ public class QueryParser {
 	
 	/**
 	 * 
-	 * The value is automatically casted: {@code Number, Date, Boolean, RegExp, String, List}.
+	 * The value is automatically cast: {@code Number, Date, Boolean, RegExp, String, List}.
 	 * 
 	 * @param value The value will be cast.
 	 * @param caster Specify casting per value.
-	 * @return Object Casted to {@code Number, Date, Boolean, RegExp, String, List}.
+	 * @return Object Cast to {@code Number, Date, Boolean, RegExp, String, List}.
 	 */
 	public static Object parseValue(String value, CastType caster) {
 		

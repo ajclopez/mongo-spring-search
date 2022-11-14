@@ -1,5 +1,15 @@
 package io.github.ajclopez.mss;
 
+import com.mongodb.BasicDBList;
+import io.github.ajclopez.mss.exception.ArgumentNotValidException;
+import io.github.ajclopez.mss.model.CastType;
+import io.github.ajclopez.mss.model.Configuration;
+import io.github.ajclopez.mss.model.LogicalOperation;
+import org.bson.Document;
+import org.junit.Assert;
+import org.junit.Test;
+import org.springframework.data.mongodb.core.query.Query;
+
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -8,17 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
-
-import org.bson.Document;
-import org.junit.Assert;
-import org.junit.Test;
-import org.springframework.data.mongodb.core.query.Query;
-
-import com.mongodb.BasicDBList;
-
-import io.github.ajclopez.mss.exception.ArgumentNotValidException;
-import io.github.ajclopez.mss.model.CastType;
-import io.github.ajclopez.mss.model.Configuration;
 
 public class MongoSpringSearchTest {
 
@@ -322,7 +321,7 @@ public class MongoSpringSearchTest {
 	@Test
 	public void complexQuery() {
 		
-		String query = "filter=(city=Madrid or city=Spanin) and gender=female"
+		String query = "filter=(city=Madrid or city=Barcelona) and gender=female"
 				+ "&skip=50"
 				+ "&limit=10"
 				+ "&sort=-birthday"
@@ -340,6 +339,14 @@ public class MongoSpringSearchTest {
 		Assert.assertEquals(Integer.valueOf(1), mongoQuery.getFieldsObject().getInteger("lastname"));
 		Assert.assertEquals(Integer.valueOf(1), mongoQuery.getFieldsObject().getInteger("age"));
 		Assert.assertEquals(Integer.valueOf(-1), mongoQuery.getSortObject().getInteger("birthday"));
+	}
+
+	@Test
+	public void whenUseInvalidLogicalOperator() {
+
+		LogicalOperation result = LogicalOperation.getLogicalOperation("y");
+		Assert.assertEquals(null, result);
+
 	}
 	
 }

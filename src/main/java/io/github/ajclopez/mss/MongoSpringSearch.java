@@ -1,28 +1,23 @@
 package io.github.ajclopez.mss;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.stream.Collectors;
-
+import io.github.ajclopez.mss.criteria.CriteriaImpl;
+import io.github.ajclopez.mss.criteria.CriteriaQueryVisitor;
+import io.github.ajclopez.mss.exception.ArgumentNotValidException;
+import io.github.ajclopez.mss.model.*;
+import io.github.ajclopez.mss.parser.QueryParser;
+import io.github.ajclopez.mss.pattern.SearchPatterns;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import io.github.ajclopez.mss.criteria.CriteriaImpl;
-import io.github.ajclopez.mss.criteria.CriteriaQueryVisitor;
-import io.github.ajclopez.mss.exception.ArgumentNotValidException;
-import io.github.ajclopez.mss.model.CastType;
-import io.github.ajclopez.mss.model.Configuration;
-import io.github.ajclopez.mss.model.KeySearchOperation;
-import io.github.ajclopez.mss.model.SearchCriteria;
-import io.github.ajclopez.mss.model.SortSearchOperation;
-import io.github.ajclopez.mss.parser.QueryParser;
-import io.github.ajclopez.mss.pattern.SearchPatterns;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -78,7 +73,7 @@ public class MongoSpringSearch {
 				filters.add(criteria);
 				break;
 			case FILTER:
-				filterCriteria = parseFilterAdvanced(mongoQuery, criteria.getValue(), casters);
+				filterCriteria = parseFilterAdvanced(criteria.getValue(), casters);
 				break;
 			case SKIP:
 				parseSkip(mongoQuery, criteria.getValue());
@@ -189,7 +184,7 @@ public class MongoSpringSearch {
 		}
 	}
 	
-	private static Criteria parseFilterAdvanced(Query query, String input, Map<String, CastType> casters) {
+	private static Criteria parseFilterAdvanced(String input, Map<String, CastType> casters) {
 		
 		QueryLexer lexer = new QueryLexer(CharStreams.fromString(input));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
