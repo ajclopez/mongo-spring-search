@@ -348,5 +348,18 @@ public class MongoSpringSearchTest {
 		Assert.assertEquals(null, result);
 
 	}
+
+	@Test
+	public void whenUseKeyWithSpecialCharacterThenReturnQuery() {
+
+		String query = "filter=(core:city=Madrid and core:city=Barcelona)";
+		Query mongoQuery = MongoSpringSearch.mss(query);
+		System.out.println(mongoQuery);
+		BasicDBList list = mongoQuery.getQueryObject().get("$and", BasicDBList.class);
+		Document document = (Document) list.get(0);
+
+		Assert.assertEquals(Integer.valueOf(2), Integer.valueOf(list.size()));
+		Assert.assertTrue(document.containsKey("core:city"));
+	}
 	
 }
