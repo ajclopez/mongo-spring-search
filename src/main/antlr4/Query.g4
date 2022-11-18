@@ -142,11 +142,11 @@ LTE
 	;
 	
 IDENTIFIER
-   	: [A-Za-z0-9.:_-$#%@]+
+   	: [A-Za-z0-9.:_-]+
    	;
 
 NEG_IDENTIFIER
-	: '!'[A-Za-z0-9.]+
+	: '!'[A-Za-z0-9.:_-]+
 	;
 
 ENCODED_STRING
