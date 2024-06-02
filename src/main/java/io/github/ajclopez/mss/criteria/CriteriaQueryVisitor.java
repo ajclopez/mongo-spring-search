@@ -1,12 +1,11 @@
 package io.github.ajclopez.mss.criteria;
 
-import java.util.Map;
-
-import org.springframework.data.mongodb.core.query.Criteria;
-
 import io.github.ajclopez.mss.QueryBaseVisitor;
 import io.github.ajclopez.mss.model.CastType;
 import io.github.ajclopez.mss.model.LogicalOperation;
+import org.springframework.data.mongodb.core.query.Criteria;
+
+import java.util.Map;
 
 /**
  * 
@@ -84,6 +83,7 @@ public class CriteriaQueryVisitor extends QueryBaseVisitor<Criteria> {
 		}
 		
 		String expression = String.format("%s%s%s", keyContext.getText().trim(), opContext.getText().trim(), valueContext.getText().trim());
+		expression = expression.replace("+", "%2B");
 		io.github.ajclopez.mss.model.SearchCriteria criteria = io.github.ajclopez.mss.parser.QueryParser.criteriaParser(expression, casters);
 		
 		return CriteriaImpl.buildCriteria(criteria);

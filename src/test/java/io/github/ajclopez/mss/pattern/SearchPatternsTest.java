@@ -1,6 +1,5 @@
-package io.github.ajclopez.mss;
+package io.github.ajclopez.mss.pattern;
 
-import io.github.ajclopez.mss.pattern.SearchPatterns;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -1,10 +1,8 @@
-package io.github.ajclopez.mss;
+package io.github.ajclopez.mss.model;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import io.github.ajclopez.mss.model.SearchCriteria;
-import io.github.ajclopez.mss.model.SearchOperation;
 import io.github.ajclopez.mss.parser.QueryParser;
 
 public class SearchCriteriaTest {

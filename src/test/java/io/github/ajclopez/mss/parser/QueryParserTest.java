@@ -1,8 +1,7 @@
-package io.github.ajclopez.mss;
+package io.github.ajclopez.mss.parser;
 
 import io.github.ajclopez.mss.model.CastType;
 import io.github.ajclopez.mss.model.SearchCriteria;
-import io.github.ajclopez.mss.parser.QueryParser;
 import org.junit.Assert;
 import org.junit.Test;
 

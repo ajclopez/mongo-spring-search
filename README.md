@@ -56,7 +56,7 @@ Include the dependency to your project inside your `pom.xml` file
 <dependency>
   <groupId>io.github.ajclopez</groupId>
   <artifactId>mongo-spring-search</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
 </dependency>
 ```
 
@@ -65,7 +65,7 @@ Include the dependency to your project inside your `pom.xml` file
 Add implementation to your project in your `build.gradle` file
 
 ```
-implementation 'io.github.ajclopez:mongo-spring-search:1.0.4'
+implementation 'io.github.ajclopez:mongo-spring-search:1.0.5'
 ````
 
 ## Usage
@@ -73,9 +73,9 @@ implementation 'io.github.ajclopez:mongo-spring-search:1.0.4'
 Converts query into a MongoDB query object.
 
 ```java
-MongoSpringSearch.mss(String query)
+MongoSpringSearch.mss(String query);
 
-MongoSpringSearch.mss(String query, Optional<Configuration> configuration)
+MongoSpringSearch.mss(String query, Optional<Configuration> configuration);
 ```
 
 ##### Arguments
