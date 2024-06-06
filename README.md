@@ -1,6 +1,6 @@
 [![MIT License][license-shield]][license-url]
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.ajclopez/mongo-spring-search.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.ajclopez%22%20AND%20a:%22mongo-spring-search%22)
-[![codecov](https://codecov.io/gh/ajclopez/mongo-spring-search/branch/master/graph/badge.svg?token=CY5KSHCCG0)](https://codecov.io/gh/ajclopez/mongo-spring-search)
+[![codecov](https://codecov.io/gh/ajclopez/mongo-spring-search/branch/release/v1.x.x/graph/badge.svg?token=CY5KSHCCG0)](https://codecov.io/gh/ajclopez/mongo-spring-search)
 
 <p align="center">
   <h3 align="center">Mongo Spring Search</h3>
