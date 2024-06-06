@@ -14,14 +14,10 @@ import java.util.Map;
  */
 public class CriteriaQueryVisitor extends QueryBaseVisitor<Criteria> {
 
-	private Map<String, CastType> casters;
+	private final Map<String, CastType> casters;
 	
 	public CriteriaQueryVisitor(Map<String, CastType> casters) {
 		this.casters = casters;
-	}
-			
-	public Map<String, CastType> getCasters() {
-		return casters;
 	}
 	
 	@Override
@@ -44,20 +40,21 @@ public class CriteriaQueryVisitor extends QueryBaseVisitor<Criteria> {
 	
 		Criteria left = visit(ctx != null ? ctx.left : null);
 		Criteria right = visit(ctx != null ? ctx.right : null);
+
+		String logicalOperation = null;
 		
-		String logicalOperation = ctx != null ? (ctx.logicalOp != null ? ctx.logicalOp.getText() : null ) : null;
+		if (ctx != null && ctx.logicalOp != null ) {
+			logicalOperation = ctx.logicalOp.getText();
+		}
 		
 		if ( logicalOperation == null ) {
 			return new Criteria().andOperator(left, right);
 		}
-		
-		switch (LogicalOperation.getLogicalOperation(logicalOperation)) {
-		case AND:
-		default:
-			return new Criteria().andOperator(left, right);
-		case OR:
-			return new Criteria().orOperator(left, right);
-		}
+
+        return switch (LogicalOperation.getLogicalOperation(logicalOperation)) {
+            case OR -> new Criteria().orOperator(left, right);
+            default -> new Criteria().andOperator(left, right);
+        };
 	}
 	
 	@Override

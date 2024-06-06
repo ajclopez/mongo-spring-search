@@ -3,7 +3,11 @@ package io.github.ajclopez.mss;
 import io.github.ajclopez.mss.criteria.CriteriaImpl;
 import io.github.ajclopez.mss.criteria.CriteriaQueryVisitor;
 import io.github.ajclopez.mss.exception.ArgumentNotValidException;
-import io.github.ajclopez.mss.model.*;
+import io.github.ajclopez.mss.model.Configuration;
+import io.github.ajclopez.mss.model.SearchCriteria;
+import io.github.ajclopez.mss.model.CastType;
+import io.github.ajclopez.mss.model.KeySearchOperation;
+import io.github.ajclopez.mss.model.SortSearchOperation;
 import io.github.ajclopez.mss.parser.QueryParser;
 import io.github.ajclopez.mss.pattern.SearchPatterns;
 import org.antlr.v4.runtime.CharStreams;
@@ -61,17 +65,13 @@ public class MongoSpringSearch {
 		
 		Query mongoQuery = new Query();
 		
-		List<SearchCriteria> filters = new ArrayList<SearchCriteria>();
+		List<SearchCriteria> filters = new ArrayList<>();
 		
-		Map<String, CastType> casters = configuration.isPresent() ? configuration.get().getCasters() : null;
+		Map<String, CastType> casters = configuration.map(Configuration::casters).orElse(null);
 		Criteria filterCriteria = null;
 		
 		for ( SearchCriteria criteria : QueryParser.parse(query, casters) ) {
 			switch (KeySearchOperation.getKeyOperation(criteria.getKey())) {
-			case DEFAULT:
-			default:
-				filters.add(criteria);
-				break;
 			case FILTER:
 				filterCriteria = parseFilterAdvanced(criteria.getValue(), casters);
 				break;
@@ -87,6 +87,10 @@ public class MongoSpringSearch {
 			case SORT:
 				parseSort(mongoQuery, criteria.getValue());
 				break;
+			case DEFAULT:
+			default:
+				filters.add(criteria);
+				break;
 			}
 		}
 		
@@ -99,21 +103,21 @@ public class MongoSpringSearch {
 				
 		Map<String, List<SearchCriteria>> groups = filters.stream().collect(Collectors.groupingBy(SearchCriteria::getKey));
 		
-		List<Criteria> criterias = new ArrayList<Criteria>();
+		List<Criteria> criterias = new ArrayList<>();
 		
 		if ( filterCriteria != null ) {
 			criterias.add(filterCriteria);			
 		}
 
-		for ( String key : groups.keySet() ) {
-			for ( SearchCriteria criteria : groups.get(key) ) {
+		for ( Map.Entry<String, List<SearchCriteria>> entry : groups.entrySet() ) {
+			for ( SearchCriteria criteria : entry.getValue() ) {
 				criterias.add(CriteriaImpl.buildCriteria(criteria));
 			}
 		}
 				
         if ( !criterias.isEmpty() ) {
         	
-        	Criteria unique = filterCriteria != null ? filterCriteria : new Criteria().andOperator(criterias.toArray(new Criteria[criterias.size()]));        	
+        	Criteria unique = filterCriteria != null ? filterCriteria : new Criteria().andOperator(criterias.toArray(new Criteria[criterias.size()]));
         	query.addCriteria(criterias.size() == 1 ? unique : new Criteria().andOperator(criterias.toArray(new Criteria[criterias.size()])));
         }
 	}
@@ -129,9 +133,9 @@ public class MongoSpringSearch {
 	private static void parseLimit(Query query, String value, Optional<Configuration> configuration) {
 		try {
 
-			Optional<Integer> maxLimit = configuration.isPresent() 
-					? configuration.get().getMaxLimit() != null ? Optional.of(configuration.get().getMaxLimit()) : Optional.empty()
-							: Optional.empty();
+			Optional<Integer> maxLimit = configuration
+					.filter(config -> config.maxLimit() != null)
+					.map(Configuration::maxLimit);
 
 			if ( maxLimit.isPresent() ) {
 
@@ -143,8 +147,8 @@ public class MongoSpringSearch {
 			}
 
 		} catch(Exception e) {
-			if ( configuration.isPresent() && configuration.get().getDefaultLimit() != null ) {
-				query.limit(configuration.get().getDefaultLimit());
+			if ( configuration.isPresent() && configuration.get().defaultLimit() != null ) {
+				query.limit(configuration.get().defaultLimit());
 				return;
 			}
 
@@ -172,12 +176,12 @@ public class MongoSpringSearch {
 				}
 				
 				switch (SortSearchOperation.getSortOperation(matcher.group(1))) {
+				case DESC:
+					query.with(Sort.by(Sort.Direction.DESC, matcher.group(2)));
+					break;
 				case ASC:
 				default:
 					query.with(Sort.by(Sort.Direction.ASC, matcher.group(2)));
-					break;
-				case DESC:
-					query.with(Sort.by(Sort.Direction.DESC, matcher.group(2)));
 					break;
 				}
 			}

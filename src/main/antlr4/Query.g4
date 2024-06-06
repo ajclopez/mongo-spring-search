@@ -150,7 +150,7 @@ NEG_IDENTIFIER
 	;
 
 ENCODED_STRING
-	: ~([ \[\]<>!=()])+
+	: ~([ \\[\]<>!=()])+
 	;   	
    	
 LineTerminator

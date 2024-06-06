@@ -7,32 +7,34 @@ jobs:
     environment:
       JVM_OPTS: -Xmx3200m
     docker:
-      - image: circleci/openjdk:14-jdk-buster-node
-
+      - image: circleci/openjdk:17-jdk-buster-node
     working_directory: ~/project
-
     steps:
       - checkout
       - restore_cache:
           keys:
             - mongo-spring-search-{{ checksum "pom.xml" }}
             - mongo-spring-search-
-
-      - run: mvn dependency:go-offline
-
+      - run:
+          name: Download dependencies
+          command: mvn dependency:go-offline
       - save_cache:
           paths:
             - ~/.m2
           key: mongo-spring-search-{{ checksum "pom.xml" }}
-
-      # run tests!
-      - run: mvn clean test
+      - run:
+          name: Run tests
+          command: mvn clean test
       - store_artifacts:
-          path:  ~/project/target/coverage-reports
-      - codecov/upload:
-          file: ~/project/target/coverage-reports/jacoco/jacoco.xml
-          flags: coverage
-          upload_name: Coverage
+          path: target/surefire-reports
+          destination: surefire-reports
+      - store_artifacts:
+          path: target/coverage-reports
+          destination: coverage-reports
+      - run:
+          name: Upload coverage to Codecov
+          command: bash <(curl -s https://codecov.io/bash) -f target/coverage-reports/jacoco/jacoco.xml
+
 
 workflows:
   version: 2

@@ -50,8 +50,18 @@ You could create custom repository methods to perform your searches. You could a
 
 ##### Maven
 
-Include the dependency to your project inside your `pom.xml` file
+Include the dependency to your project inside your `pom.xml` file. 
 
+For Java 17:
+```xml  
+<dependency>
+  <groupId>io.github.ajclopez</groupId>
+  <artifactId>mongo-spring-search</artifactId>
+  <version>2.0.0</version>
+</dependency>
+```
+
+For Java 14:
 ```xml  
 <dependency>
   <groupId>io.github.ajclopez</groupId>
@@ -64,9 +74,19 @@ Include the dependency to your project inside your `pom.xml` file
 
 Add implementation to your project in your `build.gradle` file
 
+For Java 17:
+```
+implementation 'io.github.ajclopez:mongo-spring-search:2.0.0'
+````
+
+For Java 14:
 ```
 implementation 'io.github.ajclopez:mongo-spring-search:1.0.5'
 ````
+
+#### Note
+- **Version 2.x.x:** Requires Java 17.
+- **Version 1.x.x:** Requires Java 14.
 
 ## Usage
 

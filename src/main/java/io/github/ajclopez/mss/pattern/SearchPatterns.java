@@ -11,13 +11,13 @@ public class SearchPatterns {
 
     private static final String OPERATOR_PATTERN = "(!?)([^><!=]+)([><]=?|!?=|)(.*)";
     private static final String REGEX_PATTERN = "^/(.*)/([igmsx]*)$";
-    private static final String SORT_PATTERN = "^(\\+|-)?(.*)";
+    private static final String SORT_PATTERN = "^([+\\-])?(.*)";
     private static final String NUMBER_PATTERN = "^(-?)(\\d+)([.0-9]*)$";
     
-    private static Pattern operatorPattern;
-    private static Pattern regExpPattern;
-    private static Pattern sortPattern;
-    private static Pattern numberPattern;
+    private static final Pattern operatorPattern;
+    private static final Pattern regExpPattern;
+    private static final Pattern sortPattern;
+    private static final Pattern numberPattern;
 
     static {
     	operatorPattern = Pattern.compile(OPERATOR_PATTERN);
@@ -55,23 +55,14 @@ public class SearchPatterns {
     	}
     	
     	for ( int i = 0; i < options.split("").length; i++ ) {
-    		switch (options.charAt(i)) {
-    		case 'i':
-    			flags = flags | Pattern.CASE_INSENSITIVE;
-    			break;
-    		case 'g':
-    			flags = flags | Pattern.LITERAL;
-    			break;
-    		case 'm':
-    			flags = flags | Pattern.MULTILINE;
-    			break;
-    		case 's':
-    			flags = flags | Pattern.DOTALL;
-    			break;
-    		case 'x':
-    			flags = flags | Pattern.COMMENTS;
-    			break;
-    		}
+            flags = switch (options.charAt(i)) {
+                case 'i' -> flags | Pattern.CASE_INSENSITIVE;
+                case 'g' -> flags | Pattern.LITERAL;
+                case 'm' -> flags | Pattern.MULTILINE;
+                case 's' -> flags | Pattern.DOTALL;
+                case 'x' -> flags | Pattern.COMMENTS;
+                default -> flags;
+            };
     	}
     	
     	return flags;

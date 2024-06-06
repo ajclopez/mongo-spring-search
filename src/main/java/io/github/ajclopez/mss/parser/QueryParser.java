@@ -44,7 +44,7 @@ public class QueryParser {
 	 */
 	public static List<SearchCriteria> parse(String query, Map<String, CastType> casters) {
 	
-		List<SearchCriteria> criterias = new ArrayList<SearchCriteria>();
+		List<SearchCriteria> criterias = new ArrayList<>();
 		
 		for ( String condition : query.split("&") ) {
 			criterias.add(criteriaParser(condition, casters));
@@ -97,7 +97,7 @@ public class QueryParser {
 		case BOOLEAN:
 			return Boolean.parseBoolean(value);
 		case DATE:
-			return parseLocalDateTime(value, DATE_FORMAT);
+			return parseLocalDateTime(value);
 		case NUMBER:
 			try {
 				return NumberFormat.getInstance().parse(value);
@@ -128,7 +128,7 @@ public class QueryParser {
 		String[] parts = value.split(",");
 		if ( parts.length > 1 ) {
 			
-			List<Object> list = new ArrayList<Object>();
+			List<Object> list = new ArrayList<>();
 			for ( String part : parts ) {
 				list.add(parseValue(part));
 			}
@@ -143,17 +143,19 @@ public class QueryParser {
 		if ( value.equals("null") ) {
 			return null;
 		}
-				
-		try {			
-	        return parseLocalDateTime(value, DATE_FORMAT);
+
+		try {
+	        return parseLocalDateTime(value);
 		} catch(DateTimeParseException | IllegalArgumentException ignored) {
+			// default implementation ignored
 		}
-		
+
 		try {
 			if ( SearchPatterns.getNumberPattern().matcher(value).matches() ) {
 				return NumberFormat.getInstance().parse(value);
 			}
 		} catch(ParseException ignored) {
+			// default implementation ignored
 		}
 
 		Matcher matcher = SearchPatterns.getRegExpPattern().matcher(value);
@@ -164,9 +166,9 @@ public class QueryParser {
 		return value;
 	}
 	
-    private static Instant parseLocalDateTime(String value, String format) {
+    private static Instant parseLocalDateTime(String value) {
 
-    	return LocalDateTime.parse(value, DateTimeFormatter.ofPattern(format)).atZone(ZoneId.of("UTC")).toInstant();
+    	return LocalDateTime.parse(value, DateTimeFormatter.ofPattern(QueryParser.DATE_FORMAT)).atZone(ZoneId.of("UTC")).toInstant();
     }
     
 }

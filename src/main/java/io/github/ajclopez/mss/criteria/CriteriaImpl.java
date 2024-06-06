@@ -1,12 +1,11 @@
 package io.github.ajclopez.mss.criteria;
 
-import java.util.List;
-import java.util.regex.Pattern;
-
-import org.springframework.data.mongodb.core.query.Criteria;
-
 import io.github.ajclopez.mss.model.SearchCriteria;
 import io.github.ajclopez.mss.parser.QueryParser;
+import org.springframework.data.mongodb.core.query.Criteria;
+
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * 
@@ -34,19 +33,9 @@ public class CriteriaImpl {
 		Criteria criteria = Criteria.where(key);
 		
 		switch (searchCriteria.getOperation()) {
-		case EQUAL:
-		default:					
-			if ( value instanceof Pattern ) {
-				criteria.regex((Pattern)value);
-			} else if ( value instanceof List ) {
-				criteria.in(((List<?>) value).toArray());				
-			} else {
-				criteria.is(value);	
-			}
-			break;
 		case NOT_EQUAL:
-			if ( value instanceof Pattern ) {
-				criteria.not().regex(Pattern.quote(((Pattern)value).pattern()));
+			if ( value instanceof Pattern pattern) {
+				criteria.not().regex(Pattern.quote(pattern.pattern()));
 			} else if ( value instanceof List ) {				
 				criteria.nin(((List<?>) value).toArray());
 			} else {
@@ -67,6 +56,16 @@ public class CriteriaImpl {
 			break;
 		case EXISTS:
 			criteria.exists(!searchCriteria.getPrefix());
+			break;
+		case EQUAL:
+		default:
+			if ( value instanceof Pattern pattern ) {
+				criteria.regex(pattern);
+			} else if ( value instanceof List ) {
+				criteria.in(((List<?>) value).toArray());
+			} else {
+				criteria.is(value);
+			}
 			break;
 		}
 		

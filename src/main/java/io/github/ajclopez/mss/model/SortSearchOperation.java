@@ -5,14 +5,10 @@ public enum SortSearchOperation {
 	ASC, DESC;
  
 	public static SortSearchOperation getSortOperation(String input) {
-        switch (input) {
-        case "+":
-        case " ":
-        default:
-             return ASC;
-        case "-":
-            return DESC;
-        }
+        return switch (input) {
+            case "-" -> DESC;
+            default -> ASC;
+        };
     }
 	
 }
