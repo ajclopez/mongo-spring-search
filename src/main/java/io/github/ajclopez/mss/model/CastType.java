@@ -6,6 +6,7 @@ public enum CastType {
 	DATE,
 	BOOLEAN,
 	PATTERN,
+	OBJECT_ID,
 	STRING
 	
 }

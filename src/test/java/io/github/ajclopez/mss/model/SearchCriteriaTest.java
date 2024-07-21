@@ -1,7 +1,5 @@
-package io.github.ajclopez.mss;
+package io.github.ajclopez.mss.model;
 
-import io.github.ajclopez.mss.model.SearchCriteria;
-import io.github.ajclopez.mss.model.SearchOperation;
 import io.github.ajclopez.mss.parser.QueryParser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

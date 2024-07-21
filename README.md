@@ -57,7 +57,7 @@ For Java 17:
 <dependency>
   <groupId>io.github.ajclopez</groupId>
   <artifactId>mongo-spring-search</artifactId>
-  <version>2.0.0</version>
+  <version>2.0.1</version>
 </dependency>
 ```
 
@@ -76,7 +76,7 @@ Add implementation to your project in your `build.gradle` file
 
 For Java 17:
 ```
-implementation 'io.github.ajclopez:mongo-spring-search:2.0.0'
+implementation 'io.github.ajclopez:mongo-spring-search:2.0.1'
 ````
 
 For Java 14:
@@ -264,10 +264,11 @@ Map<String, CastType> casters = new HashMap<String, CastType>();
 casters.put("key1", CastType.STRING);
 casters.put("key2", CastType.NUMBER);
 casters.put("key3", CastType.STRING);
-casters.put("key4", CastType.BOOLEAN);
+casters.put("key4", CastType.OBJECT_ID);
+casters.put("key5", CastType.BOOLEAN);
 		
 Configuration options = new Configuration(casters, null, null);
-MongoSpringSearch.mss("key1=VALUE&key2=10&key3=20&key4=true", Optional.of(options));
+MongoSpringSearch.mss("key1=VALUE&key2=10&key3=20&key4=666fde1af688038e64d6b58a&key5=true", Optional.of(options));
 ```
 
 ## Contributing

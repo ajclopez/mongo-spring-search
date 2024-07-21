@@ -5,6 +5,7 @@ import io.github.ajclopez.mss.model.CastType;
 import io.github.ajclopez.mss.model.SearchCriteria;
 import io.github.ajclopez.mss.model.SearchOperation;
 import io.github.ajclopez.mss.pattern.SearchPatterns;
+import org.bson.types.ObjectId;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -81,11 +82,11 @@ public class QueryParser {
 	
 	/**
 	 * 
-	 * The value is automatically cast: {@code Number, Date, Boolean, RegExp, String, List}.
+	 * The value is automatically cast: {@code Number, Date, Boolean, RegExp, ObjectId, String, List}.
 	 * 
 	 * @param value The value will be cast.
 	 * @param caster Specify casting per value.
-	 * @return Object Cast to {@code Number, Date, Boolean, RegExp, String, List}.
+	 * @return Object Cast to {@code Number, Date, Boolean, RegExp, ObjectId, String, List}.
 	 */
 	public static Object parseValue(String value, CastType caster) {
 		
@@ -112,6 +113,8 @@ public class QueryParser {
 			}
 			
 			return Pattern.compile(value.replace("/", ""));
+		case OBJECT_ID:
+			return new ObjectId(value);
 		case STRING:
 			return value;
 		default:
@@ -161,6 +164,10 @@ public class QueryParser {
 		Matcher matcher = SearchPatterns.getRegExpPattern().matcher(value);
 		if ( matcher.matches() ) {
 			return Pattern.compile(matcher.group(1).replace("/", ""), SearchPatterns.getFlags(matcher.group(2)));
+		}
+
+		if ( ObjectId.isValid(value) ) {
+			return new ObjectId(value);
 		}
 		
 		return value;

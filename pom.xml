@@ -5,7 +5,7 @@
 
 	<groupId>io.github.ajclopez</groupId>
 	<artifactId>mongo-spring-search</artifactId>
-	<version>2.0.0</version>
+	<version>2.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>mongo-spring-search</name>
